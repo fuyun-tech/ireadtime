@@ -206,6 +206,7 @@ export class PostListComponent implements OnInit {
   }
 
   private initData(breadcrumbs: BreadcrumbEntity[]) {
+    this.postService.updateRootTaxonomy((breadcrumbs || [])[0]?.slug || '');
     this.paginationService.updatePagination({
       page: this.page,
       total: this.total,

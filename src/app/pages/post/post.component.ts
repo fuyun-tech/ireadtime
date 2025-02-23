@@ -353,6 +353,7 @@ export class PostComponent implements OnInit {
 
     this.postService.updateActivePostId(post.post.postId);
     this.postService.updateActiveBook(post.book);
+    this.postService.updateRootTaxonomy((post.breadcrumbs || [])[0]?.slug || '');
     this.updateBreadcrumbs(this.isArticle ? post.breadcrumbs : []);
     this.updatePageIndex();
     this.updatePageInfo();

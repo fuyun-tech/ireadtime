@@ -20,6 +20,7 @@ import { AuthService } from '../../services/auth.service';
 import { CommonService } from '../../services/common.service';
 import { DestroyService } from '../../services/destroy.service';
 import { LogService } from '../../services/log.service';
+import { PostService } from '../../services/post.service';
 import { TenantAppService } from '../../services/tenant-app.service';
 import { UserAgentService } from '../../services/user-agent.service';
 import { UserService } from '../../services/user.service';
@@ -55,6 +56,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   wallpaperModalVisible = false;
   searchVisible = false;
   isFocused = false;
+  rootTaxonomy = '';
 
   private adminUrl = '';
   private botsUrl = '';
@@ -69,7 +71,8 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     private readonly tenantAppService: TenantAppService,
     private readonly authService: AuthService,
     private readonly userService: UserService,
-    private readonly logService: LogService
+    private readonly logService: LogService,
+    private readonly postService: PostService
   ) {
     this.isMobile = this.userAgentService.isMobile;
   }
@@ -89,6 +92,9 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
       });
     this.commonService.pageIndex$.pipe(takeUntil(this.destroy$)).subscribe((page) => {
       this.indexInfo = this.commonService.getPageIndexInfo(page);
+    });
+    this.postService.rootTaxonomy$.pipe(takeUntil(this.destroy$)).subscribe((taxonomy) => {
+      this.rootTaxonomy = taxonomy;
     });
     this.userService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       this.user = user;

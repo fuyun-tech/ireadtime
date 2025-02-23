@@ -16,8 +16,12 @@ import { ApiService } from './api.service';
 export class PostService {
   private activePostId: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public activePostId$: Observable<string> = this.activePostId.asObservable();
+
   private activeBook: Subject<BookEntity | undefined> = new Subject<BookEntity | undefined>();
   public activeBook$: Observable<BookEntity | undefined> = this.activeBook.asObservable();
+
+  private rootTaxonomy: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  public rootTaxonomy$: Observable<string> = this.rootTaxonomy.asObservable();
 
   constructor(private readonly apiService: ApiService) {}
 
@@ -119,6 +123,10 @@ export class PostService {
 
   updateActiveBook(book?: BookEntity) {
     this.activeBook.next(book);
+  }
+
+  updateRootTaxonomy(taxonomySlug: string) {
+    this.rootTaxonomy.next(taxonomySlug);
   }
 
   getPostSource(post: Post): string {

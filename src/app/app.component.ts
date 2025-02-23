@@ -19,6 +19,7 @@ import { ErrorService } from './services/error.service';
 import { LogService } from './services/log.service';
 import { OptionService } from './services/option.service';
 import { PlatformService } from './services/platform.service';
+import { PostService } from './services/post.service';
 import { SsrCookieService } from './services/ssr-cookie.service';
 import { TaxonomyService } from './services/taxonomy.service';
 import { TenantAppService } from './services/tenant-app.service';
@@ -69,7 +70,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private readonly userService: UserService,
     private readonly tenantAppService: TenantAppService,
     private readonly taxonomyService: TaxonomyService,
-    private readonly logService: LogService
+    private readonly logService: LogService,
+    private readonly postService: PostService
   ) {
     this.isMobile = this.userAgentService.isMobile;
   }
@@ -83,6 +85,8 @@ export class AppComponent implements OnInit, AfterViewInit {
             if (!this.errorPage) {
               this.errorService.hideError();
             }
+
+            this.postService.updateRootTaxonomy('');
           }
         }),
         filter((re) => re instanceof NavigationEnd)

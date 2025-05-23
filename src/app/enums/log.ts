@@ -1,3 +1,11 @@
+export enum AdsStatus {
+  UNKNOWN = 0,
+  ENABLED = 1,
+  DISABLED = 2,
+  BLOCKED = 3,
+  ERROR = 4
+}
+
 export enum ActionObjectType {
   POST = 'post',
   WALLPAPER = 'wallpaper',
@@ -20,7 +28,6 @@ export enum ActionType {
   SHOW_WECHAT_CARD = 'show_wechat_card',
   // rss
   OPEN_POST_RSS = 'open_post_rss',
-  OPEN_WALLPAPER_RSS = 'open_wallpaper_rss',
   // setting
   CHANGE_THEME = 'change_theme',
   CHANGE_LANG = 'change_lang',

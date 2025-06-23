@@ -9,7 +9,7 @@
           <a routerLink="/" title="{{appInfo?.appName}}首页">首页</a>
         </li>
         <li [class.active]="taxonomy.taxonomySlug === rootTaxonomy" *ngFor="let taxonomy of postTaxonomies">
-          <a [routerLink]="['/post/category/'+taxonomy.taxonomySlug]"
+          <a [routerLink]="['/category/'+taxonomy.taxonomySlug]"
              [title]="taxonomy.taxonomyDescription">
             <span>{{ taxonomy.taxonomyName }}</span><span *ngIf="!taxonomy.isLeaf" class="nav-arrow"></span>
           </a>
@@ -18,7 +18,7 @@
               <ul>
                 <li *ngFor="let subTaxonomy of taxonomy.children">
                   <a class="sub-nav-link"
-                     [routerLink]="['/post/category/'+subTaxonomy.taxonomySlug]"
+                     [routerLink]="['/category/'+subTaxonomy.taxonomySlug]"
                      [title]="subTaxonomy.taxonomyDescription">{{ subTaxonomy.taxonomyName }}</a>
                 </li>
               </ul>

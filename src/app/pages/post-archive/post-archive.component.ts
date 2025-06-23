@@ -95,14 +95,14 @@ export class PostArchiveComponent implements OnInit {
     const breadcrumbs = [
       {
         label: '文章',
-        tooltip: `文章列表`,
-        url: '/post',
+        tooltip: '文章',
+        url: '/post-list',
         isHeader: false
       },
       {
         label: '归档',
         tooltip: `文章归档`,
-        url: '/post/archive',
+        url: '/archive',
         isHeader: true
       }
     ];

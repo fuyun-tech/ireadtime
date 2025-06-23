@@ -156,7 +156,7 @@ export class PostComponent implements OnInit {
       .subscribe(([appInfo, options, p]) => {
         this.appInfo = appInfo;
         this.options = options;
-        this.referrer = this.commonService.getReferrer();
+        this.referrer = this.commonService.getReferrer(true);
 
         const slug = p.get('slug')?.trim() || '';
         if (!slug) {
@@ -225,6 +225,10 @@ export class PostComponent implements OnInit {
         }
       ]);
     }
+  }
+
+  onPostSelect() {
+    return !this.post.postPayFlag && (!this.post.postLoginFlag || this.isSignIn);
   }
 
   vote() {
@@ -354,20 +358,20 @@ export class PostComponent implements OnInit {
     this.postService.updateActivePostId(post.post.postId);
     this.postService.updateActiveBook(post.book);
     this.postService.updateRootTaxonomy((post.breadcrumbs || [])[0]?.slug || '');
-    this.updateBreadcrumbs(this.isArticle ? post.breadcrumbs : []);
+    this.updateBreadcrumbs(this.isArticle ? post.breadcrumbs || [] : []);
     this.updatePageIndex();
     this.updatePageInfo();
   }
 
-  private updateBreadcrumbs(breadcrumbData?: BreadcrumbEntity[]) {
-    const breadcrumbs = (breadcrumbData || []).map((item) => ({
+  private updateBreadcrumbs(breadcrumbData: BreadcrumbEntity[]) {
+    const breadcrumbs = breadcrumbData.map((item) => ({
       ...item,
-      url: `/post/category/${item.slug}`
+      url: `/category/${item.slug}`
     }));
     breadcrumbs.unshift({
       label: '文章',
       tooltip: '文章列表',
-      url: '/post',
+      url: '/post-list',
       isHeader: false
     });
     if (this.postBook) {
@@ -375,7 +379,7 @@ export class PostComponent implements OnInit {
       breadcrumbs.push({
         label: this.postBookName.shortName,
         tooltip: this.postBookName.fullName,
-        url: '/post',
+        url: '/post-list',
         param: {
           bookId: this.postBook.bookId
         },

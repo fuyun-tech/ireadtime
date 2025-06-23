@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CommonService } from 'src/app/services/common.service';
 import { ApiUrl } from '../config/api-url';
 import { APP_ID } from '../config/common.constant';
 import { AdsStatus } from '../enums/log';
@@ -14,7 +15,8 @@ import { UserAgentService } from './user-agent.service';
 export class LogService {
   constructor(
     private readonly apiService: ApiService,
-    private readonly userAgentService: UserAgentService
+    private readonly userAgentService: UserAgentService,
+    private readonly commonService: CommonService
   ) {}
 
   parseAccessLog(param: {
@@ -34,30 +36,20 @@ export class LogService {
       rf: initialized ? referrer : document.referrer,
       s: 'web',
       as: adsStatus || AdsStatus.UNKNOWN,
-      rs: window.screen.width + 'x' + window.screen.height,
+      rs: this.commonService.getResolution(),
       cd: window.screen.colorDepth.toString(),
       ia: initialized ? 1 : 0,
-      os: uaInfo.os,
-      ov: uaInfo.osVersion,
-      a: uaInfo.architecture,
-      b: uaInfo.browser,
-      bv: uaInfo.browserVersion,
-      e: uaInfo.engine,
-      ev: uaInfo.engineVersion,
-      im: uaInfo.isMobile ? 1 : 0,
-      ic: uaInfo.isCrawler ? 1 : 0,
-      ua: uaInfo.userAgent,
       appId: APP_ID
     };
   }
 
   logAccess(log: AccessLog): Observable<HttpResponseEntity> {
-    return this.apiService.httpPost(ApiUrl.LOG_ACCESS, log, false);
+    return this.apiService.httpPost(ApiUrl.ACCESS_LOG, log, false);
   }
 
   logAdsStatus(logId: string, status: AdsStatus): Observable<HttpResponseEntity> {
     return this.apiService.httpPost(
-      ApiUrl.LOG_ADS,
+      ApiUrl.ACCESS_LOG_PLUGIN,
       {
         logId,
         status,
@@ -70,7 +62,7 @@ export class LogService {
   logLeave(log: Omit<LeaveLog, 'appId'>): void {
     if (log.logId) {
       navigator.sendBeacon(
-        this.apiService.getApiUrl(ApiUrl.LOG_LEAVE),
+        this.apiService.getApiUrl(ApiUrl.ACCESS_LOG_LEAVE),
         JSON.stringify({
           ...log,
           appId: APP_ID
@@ -81,7 +73,7 @@ export class LogService {
 
   logAction(log: Omit<ActionLog, 'faId' | 'ref' | 'appId'>): Observable<HttpResponseEntity> {
     return this.apiService.httpPost(
-      ApiUrl.LOG_ACTION,
+      ApiUrl.ACTION_LOG,
       {
         ...log,
         ref: location.href,

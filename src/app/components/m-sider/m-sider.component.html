@@ -18,13 +18,13 @@
           <a routerLink="/" (click)="closeSider()"><nz-icon nzType="home" /><span>首页</span></a>
         </li>
         <li [class.active]="indexInfo?.isPost && indexInfo?.subPage !== 'archive'">
-          <a routerLink="/post" title="文章" (click)="closeSider()"><nz-icon nzType="form" /><span>文章</span></a>
+          <a routerLink="/post-list" title="文章" (click)="closeSider()"><nz-icon nzType="form" /><span>文章</span></a>
         </li>
         <li [class.active]="indexInfo?.subPage === 'about'">
           <a routerLink="/about" title="关于" (click)="closeSider()"><nz-icon nzType="info-circle" /><span>关于</span></a>
         </li>
         <li [class.active]="indexInfo?.fullPage === 'post-archive'">
-          <a routerLink="/post/archive"
+          <a routerLink="/archive"
              title="文章归档"
              (click)="closeSider()"><span class="fi fi-calendar-date"></span><span>文章归档</span></a>
         </li>

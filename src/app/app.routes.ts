@@ -18,17 +18,17 @@ import { SearchComponent } from './pages/search/search.component';
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   {
+    path: 'posts',
+    component: ContentLayoutComponent,
+    children: [
+      { path: '', pathMatch: 'full', component: PostListComponent }
+    ]
+  },
+  {
     path: 'post',
     component: ContentLayoutComponent,
     children: [
       { path: ':slug', component: PostComponent }
-    ]
-  },
-  {
-    path: 'post-list',
-    component: ContentLayoutComponent,
-    children: [
-      { path: '', pathMatch: 'full', component: PostListComponent }
     ]
   },
   {

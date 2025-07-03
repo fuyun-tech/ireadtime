@@ -61,7 +61,7 @@ export class PostListComponent implements OnInit {
       return `/archive/${this.year}${this.month ? '/' + this.month : ''}`;
     }
 
-    return '/post-list';
+    return '/posts';
   }
 
   get paginationParam(): Params {
@@ -154,7 +154,7 @@ export class PostListComponent implements OnInit {
   private getPosts() {
     const param: PostQueryParam = {
       page: this.page,
-      pageSize: this.pageSize
+      size: this.pageSize
     };
     if (this.category) {
       param.category = this.category;
@@ -190,7 +190,7 @@ export class PostListComponent implements OnInit {
     this.postService
       .getPostsByBookId<PostList>({
         page: this.page,
-        pageSize: this.pageSize,
+        size: this.pageSize,
         bookId: this.bookId,
         simple: 0
       })
@@ -281,7 +281,7 @@ export class PostListComponent implements OnInit {
       {
         label: '文章',
         tooltip: '文章',
-        url: '/post-list',
+        url: '/posts',
         isHeader: false
       }
     ];
@@ -332,7 +332,7 @@ export class PostListComponent implements OnInit {
       breadcrumbs.push({
         label: this.postBookName.fullName,
         tooltip: this.postBookName.fullName,
-        url: '/post-list',
+        url: '/posts',
         param: {
           bookId: this.bookId
         },

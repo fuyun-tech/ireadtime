@@ -96,7 +96,7 @@ export class PostArchiveComponent implements OnInit {
       {
         label: '文章',
         tooltip: '文章',
-        url: '/post-list',
+        url: '/posts',
         isHeader: false
       },
       {

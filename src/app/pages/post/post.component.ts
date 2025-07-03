@@ -371,7 +371,7 @@ export class PostComponent implements OnInit {
     breadcrumbs.unshift({
       label: '文章',
       tooltip: '文章列表',
-      url: '/post-list',
+      url: '/posts',
       isHeader: false
     });
     if (this.postBook) {
@@ -379,7 +379,7 @@ export class PostComponent implements OnInit {
       breadcrumbs.push({
         label: this.postBookName.shortName,
         tooltip: this.postBookName.fullName,
-        url: '/post-list',
+        url: '/posts',
         param: {
           bookId: this.postBook.bookId
         },

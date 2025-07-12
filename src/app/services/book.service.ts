@@ -29,6 +29,6 @@ export class BookService {
     return {
       shortName,
       fullName
-    }
+    };
   }
 }

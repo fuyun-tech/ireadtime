@@ -392,9 +392,7 @@ export class PostComponent implements OnInit {
 
   private updatePageInfo() {
     const titles: string[] = [this.appInfo.appName];
-    const keywords: string[] = this.postTags
-      .map((item) => item.tagName)
-      .concat(this.appInfo.keywords);
+    const keywords: string[] = this.postTags.map((item) => item.tagName).concat(this.appInfo.keywords);
 
     if (this.postBook) {
       titles.unshift(this.postBook.bookName);

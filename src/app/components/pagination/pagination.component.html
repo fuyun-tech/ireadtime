@@ -1,12 +1,12 @@
-<ng-container *ngIf="pagination && pagination.total > 0">
-  <ng-container *ngIf="!isMobile">
+@if (pagination && pagination.total > 0) {
+  @if (!isMobile) {
     <div class="pagination p-pagination">
       <ul>
         @if (pagination.page > 1) {
           <li>
             <a [routerLink]="linkUrl"
                [queryParams]="getLinkParams(pagination.prev)"
-               title="上一页"><nz-icon nzType="left" /></a>
+               title="上一页"><nz-icon nzType="left"/></a>
           </li>
         }
         @if (pagination.pages < 10) {
@@ -36,7 +36,7 @@
               </li>
             }
           }
-          <li class="ellipsis"><nz-icon nzType="ellipsis" /></li>
+          <li class="ellipsis"><nz-icon nzType="ellipsis"/></li>
           <li>
             <a [routerLink]="linkUrl"
                [queryParams]="getLinkParams(pagination.pages)"
@@ -47,7 +47,7 @@
           <li><a [routerLink]="linkUrl"
                  [queryParams]="getLinkParams(1)"
                  title="第1页">1</a></li>
-          <li class="ellipsis"><nz-icon nzType="ellipsis" /></li>
+          <li class="ellipsis"><nz-icon nzType="ellipsis"/></li>
           @for (page of 5 | range; track page) {
             @if (pagination.pages - 4 + page === pagination.page) {
               <li class="active"><span>{{ pagination.pages - 4 + page }}</span></li>
@@ -65,7 +65,7 @@
           <li><a [routerLink]="linkUrl"
                  [queryParams]="getLinkParams(1)"
                  title="第1页">1</a></li>
-          <li class="ellipsis"><nz-icon nzType="ellipsis" /></li>
+          <li class="ellipsis"><nz-icon nzType="ellipsis"/></li>
           @for (page of 5 | range; track page) {
             @if (pagination.page - 2 + page === pagination.page) {
               <li class="active"><span>{{ pagination.page - 2 + page }}</span></li>
@@ -78,35 +78,39 @@
               </li>
             }
           }
-          <li class="ellipsis"><nz-icon nzType="ellipsis" /></li>
+          <li class="ellipsis"><nz-icon nzType="ellipsis"/></li>
           <li>
             <a [routerLink]="linkUrl"
                [queryParams]="getLinkParams(pagination.pages)"
                title="第{{ pagination.pages }}页">{{ pagination.pages }}</a>
           </li>
         }
-        <li *ngIf="pagination.page < pagination.end">
-          <a [routerLink]="linkUrl"
-             [queryParams]="getLinkParams(pagination.next)"
-             title="下一页"><nz-icon nzType="right" /></a>
-        </li>
+        @if (pagination.page < pagination.end) {
+          <li>
+            <a [routerLink]="linkUrl"
+               [queryParams]="getLinkParams(pagination.next)"
+               title="下一页"><nz-icon nzType="right"/></a>
+          </li>
+        }
       </ul>
     </div>
-  </ng-container>
-  <ng-container *ngIf="isMobile && pagination.pages > 1">
+  }
+  @if (isMobile && pagination.pages > 1) {
     <div class="pagination m-pagination">
       <div>
-        <a *ngIf="pagination.page > 1"
-           [routerLink]="linkUrl"
-           [queryParams]="getLinkParams(pagination.prev)"
-           title="上一页"><nz-icon nzType="left" /><span>上一页</span></a>
+        @if (pagination.page > 1) {
+          <a [routerLink]="linkUrl"
+             [queryParams]="getLinkParams(pagination.prev)"
+             title="上一页"><nz-icon nzType="left"/><span>上一页</span></a>
+        }
       </div>
       <div>
-        <a *ngIf="pagination.page < pagination.end"
-           [routerLink]="linkUrl"
-           [queryParams]="getLinkParams(pagination.next)"
-           title="下一页"><span>下一页</span><nz-icon nzType="right" /></a>
+        @if (pagination.page < pagination.end) {
+          <a [routerLink]="linkUrl"
+             [queryParams]="getLinkParams(pagination.next)"
+             title="下一页"><span>下一页</span><nz-icon nzType="right"/></a>
+        }
       </div>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

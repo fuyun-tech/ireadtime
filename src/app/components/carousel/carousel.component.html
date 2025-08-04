@@ -23,8 +23,7 @@
               <div class="carousel-img" [style.background-image]="'url(' + carousel.fullUrl + ')'"></div>
             </a>
           }
-        }
-        @if (i > 1) {
+        } @else {
           @if (!carousel.link) {
             <div class="carousel-img lazyload" [title]="carousel.caption" [attr.data-bg]="carousel.fullUrl"></div>
           } @else {

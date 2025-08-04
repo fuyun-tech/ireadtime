@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { AfterViewChecked, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -30,15 +29,7 @@ import { WallpaperModalComponent } from '../wallpaper-modal/wallpaper-modal.comp
 
 @Component({
   selector: 'app-header',
-  imports: [
-    RouterLink,
-    CommonModule,
-    FormsModule,
-    NzInputModule,
-    NzIconModule,
-    NzButtonModule,
-    WallpaperModalComponent
-  ],
+  imports: [RouterLink, FormsModule, NzInputModule, NzIconModule, NzButtonModule, WallpaperModalComponent],
   providers: [DestroyService, NzImageService],
   templateUrl: './header.component.html',
   styleUrl: './header.component.less'
@@ -61,7 +52,6 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   rootTaxonomy = '';
 
   private adminUrl = '';
-  private botsUrl = '';
 
   constructor(
     private readonly destroy$: DestroyService,
@@ -90,7 +80,6 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
 
         const urlParam = format(ADMIN_URL_PARAM, this.authService.getToken(), APP_ID);
         this.adminUrl = this.appInfo.appAdminUrl + '?' + urlParam;
-        this.botsUrl = this.appInfo.appAdminUrl.replace(/\/$/i, '') + '/bots' + '?' + urlParam;
       });
     this.commonService.pageIndex$.pipe(takeUntil(this.destroy$)).subscribe((page) => {
       this.indexInfo = this.commonService.getPageIndexInfo(page);

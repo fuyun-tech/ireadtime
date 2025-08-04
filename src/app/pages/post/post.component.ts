@@ -6,50 +6,48 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { ClipboardService } from 'ngx-clipboard';
 import { combineLatest, skipWhile, takeUntil } from 'rxjs';
-import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
-import { CommentComponent } from '../../components/comment/comment.component';
-import { LoginModalComponent } from '../../components/login-modal/login-modal.component';
-import { MakeMoneyComponent } from '../../components/make-money/make-money.component';
-import { PostPrevNextComponent } from '../../components/post-prev-next/post-prev-next.component';
-import { PostRelatedComponent } from '../../components/post-related/post-related.component';
-import { ShareModalComponent } from '../../components/share-modal/share-modal.component';
-import { REGEXP_ID } from '../../config/common.constant';
-import { Message } from '../../config/message.enum';
-import { ResponseCode } from '../../config/response-code.enum';
-import { CommentObjectType } from '../../enums/comment';
-import { FavoriteType } from '../../enums/favorite';
-import { ActionObjectType, ActionType } from '../../enums/log';
-import { PostType } from '../../enums/post';
-import { VoteType, VoteValue } from '../../enums/vote';
-import { BookEntity } from '../../interfaces/book';
-import { BreadcrumbEntity } from '../../interfaces/breadcrumb';
-import { OptionEntity } from '../../interfaces/option';
-import { Post, PostModel } from '../../interfaces/post';
-import { TagEntity } from '../../interfaces/tag';
-import { TaxonomyEntity } from '../../interfaces/taxonomy';
-import { TenantAppModel } from '../../interfaces/tenant-app';
-import { UserModel } from '../../interfaces/user';
-import { CopyLinkPipe } from '../../pipes/copy-link.pipe';
-import { CopyTypePipe } from '../../pipes/copy-type.pipe';
-import { NumberViewPipe } from '../../pipes/number-view.pipe';
-import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
-import { BookService } from '../../services/book.service';
-import { BreadcrumbService } from '../../services/breadcrumb.service';
-import { CommentService } from '../../services/comment.service';
-import { CommonService } from '../../services/common.service';
-import { DestroyService } from '../../services/destroy.service';
-import { FavoriteService } from '../../services/favorite.service';
-import { LogService } from '../../services/log.service';
-import { MessageService } from '../../services/message.service';
-import { MetaService } from '../../services/meta.service';
-import { OptionService } from '../../services/option.service';
-import { PlatformService } from '../../services/platform.service';
-import { PostService } from '../../services/post.service';
-import { TenantAppService } from '../../services/tenant-app.service';
-import { UserAgentService } from '../../services/user-agent.service';
-import { UserService } from '../../services/user.service';
-import { VoteService } from '../../services/vote.service';
-import { decodeEntities } from '../../utils/entities';
+import { BreadcrumbComponent } from 'src/app/components/breadcrumb/breadcrumb.component';
+import { CommentComponent } from 'src/app/components/comment/comment.component';
+import { LoginModalComponent } from 'src/app/components/login-modal/login-modal.component';
+import { MakeMoneyComponent } from 'src/app/components/make-money/make-money.component';
+import { PostPrevNextComponent } from 'src/app/components/post-prev-next/post-prev-next.component';
+import { PostRelatedComponent } from 'src/app/components/post-related/post-related.component';
+import { ShareModalComponent } from 'src/app/components/share-modal/share-modal.component';
+import { REGEXP_ID } from 'src/app/config/common.constant';
+import { Message } from 'src/app/config/message.enum';
+import { ResponseCode } from 'src/app/config/response-code.enum';
+import { CommentObjectType } from 'src/app/enums/comment';
+import { FavoriteType } from 'src/app/enums/favorite';
+import { ActionObjectType, ActionType } from 'src/app/enums/log';
+import { PostType } from 'src/app/enums/post';
+import { VoteType, VoteValue } from 'src/app/enums/vote';
+import { BreadcrumbEntity } from 'src/app/interfaces/breadcrumb';
+import { OptionEntity } from 'src/app/interfaces/option';
+import { Post, PostModel } from 'src/app/interfaces/post';
+import { TagEntity } from 'src/app/interfaces/tag';
+import { TaxonomyEntity } from 'src/app/interfaces/taxonomy';
+import { TenantAppModel } from 'src/app/interfaces/tenant-app';
+import { UserModel } from 'src/app/interfaces/user';
+import { CopyLinkPipe } from 'src/app/pipes/copy-link.pipe';
+import { CopyTypePipe } from 'src/app/pipes/copy-type.pipe';
+import { NumberViewPipe } from 'src/app/pipes/number-view.pipe';
+import { SafeHtmlPipe } from 'src/app/pipes/safe-html.pipe';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
+import { CommentService } from 'src/app/services/comment.service';
+import { CommonService } from 'src/app/services/common.service';
+import { DestroyService } from 'src/app/services/destroy.service';
+import { FavoriteService } from 'src/app/services/favorite.service';
+import { LogService } from 'src/app/services/log.service';
+import { MessageService } from 'src/app/services/message.service';
+import { MetaService } from 'src/app/services/meta.service';
+import { OptionService } from 'src/app/services/option.service';
+import { PlatformService } from 'src/app/services/platform.service';
+import { PostService } from 'src/app/services/post.service';
+import { TenantAppService } from 'src/app/services/tenant-app.service';
+import { UserAgentService } from 'src/app/services/user-agent.service';
+import { UserService } from 'src/app/services/user.service';
+import { VoteService } from 'src/app/services/vote.service';
+import { decodeEntities } from 'src/app/utils/entities';
 
 @Component({
   selector: 'app-post',
@@ -101,10 +99,6 @@ export class PostComponent implements OnInit {
     );
   }
 
-  private get postBookName() {
-    return this.bookService.getBookName(this.postBook, false);
-  }
-
   protected pageIndex = 'post-article';
 
   private readonly copyHTML = '<span class="fi fi-copy"></span>Copy code';
@@ -116,7 +110,6 @@ export class PostComponent implements OnInit {
   private postId = '';
   private postSlug = '';
   private referrer = '';
-  private postBook?: BookEntity;
   private codeList: string[] = [];
 
   constructor(
@@ -137,8 +130,7 @@ export class PostComponent implements OnInit {
     private readonly favoriteService: FavoriteService,
     private readonly commentService: CommentService,
     private readonly clipboardService: ClipboardService,
-    private readonly logService: LogService,
-    private readonly bookService: BookService
+    private readonly logService: LogService
   ) {
     this.isMobile = this.userAgentService.isMobile;
   }
@@ -338,7 +330,6 @@ export class PostComponent implements OnInit {
 
     this.post = post.post;
     this.post.postContent = result.content;
-    this.postBook = post.book;
     this.codeList = result.codeList;
     this.post.postSource = this.postService.getPostSource(post);
     this.postMeta = post.meta;
@@ -354,7 +345,6 @@ export class PostComponent implements OnInit {
     }
 
     this.postService.updateActivePostId(post.post.postId);
-    this.postService.updateActiveBook(post.book);
     this.postService.updateRootTaxonomy((post.breadcrumbs || [])[0]?.slug || '');
     this.updateBreadcrumbs(this.isArticle ? post.breadcrumbs || [] : []);
     this.updatePageIndex();
@@ -372,34 +362,13 @@ export class PostComponent implements OnInit {
       url: '/posts',
       isHeader: false
     });
-    if (this.postBook) {
-      breadcrumbs[breadcrumbs.length - 1].isHeader = false;
-      breadcrumbs.push({
-        label: this.postBookName.shortName,
-        tooltip: this.postBookName.fullName,
-        url: '/posts',
-        param: {
-          bookId: this.postBook.bookId
-        },
-        isHeader: true
-      });
-    }
 
     this.breadcrumbService.updateBreadcrumbs(breadcrumbs);
   }
 
   private updatePageInfo() {
-    const titles: string[] = [this.appInfo.appName];
+    const titles: string[] = [this.post.postTitle, this.appInfo.appName];
     const keywords: string[] = this.postTags.map((item) => item.tagName).concat(this.appInfo.keywords);
-
-    if (this.postBook) {
-      titles.unshift(this.postBook.bookName);
-      if (this.postBook.bookIssue) {
-        titles.unshift(this.postBook.bookIssue);
-      }
-      keywords.unshift(this.postBook.bookName);
-    }
-    titles.unshift(this.post.postTitle);
 
     this.metaService.updateHTMLMeta({
       title: titles.join(' - '),

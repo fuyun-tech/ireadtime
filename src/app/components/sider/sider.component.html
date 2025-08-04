@@ -1,24 +1,5 @@
 <aside class="sider" #siderEle>
   <div>
-    @if (indexInfo?.isArticle && bookPosts && bookPosts.length > 0) {
-      <div class="widget">
-        <h3 class="widget-title">
-          <span><nz-icon nzType="bars"/><span>目录</span></span>
-          <span class="more">
-            <a routerLink="/posts" [queryParams]="{ bookId: activeBook?.bookId }" [title]="bookName + '文章'">
-              <span>更多</span><nz-icon nzType="double-right"/>
-            </a>
-          </span>
-        </h3>
-        <ul>
-          @for (post of bookPosts; track post) {
-            <li>
-              <a [routerLink]="post.postGuid" [title]="post.postTitle">{{ post.postTitle }}</a>
-            </li>
-          }
-        </ul>
-      </div>
-    }
     @if (hotPosts && hotPosts.length > 0) {
       <div class="widget">
         <h3 class="widget-title"><span><nz-icon nzType="fire"/><span>热门文章</span></span></h3>
@@ -52,7 +33,7 @@
         <ul>
           @for (item of postArchives; track item) {
             <li>
-              <a [routerLink]="'/archive/' + item.dateValue"
+              <a [routerLink]="['/archive', item.dateValue]"
                  [title]="item.dateLabel">{{ item.dateLabel }}({{ item.count }})</a>
             </li>
           }

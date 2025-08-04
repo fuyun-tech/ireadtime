@@ -8,23 +8,31 @@
         <li [class.active]="indexInfo?.isHome">
           <a routerLink="/" title="{{appInfo?.appName}}首页">首页</a>
         </li>
-        <li [class.active]="taxonomy.taxonomySlug === rootTaxonomy" *ngFor="let taxonomy of postTaxonomies">
-          <a [routerLink]="['/category/'+taxonomy.taxonomySlug]"
-             [title]="taxonomy.taxonomyDescription">
-            <span>{{ taxonomy.taxonomyName }}</span><span *ngIf="!taxonomy.isLeaf" class="nav-arrow"></span>
-          </a>
-          <div class="sub-nav-wrap" *ngIf="!taxonomy.isLeaf">
-            <div class="sub-nav-list">
-              <ul>
-                <li *ngFor="let subTaxonomy of taxonomy.children">
-                  <a class="sub-nav-link"
-                     [routerLink]="['/category/'+subTaxonomy.taxonomySlug]"
-                     [title]="subTaxonomy.taxonomyDescription">{{ subTaxonomy.taxonomyName }}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li>
+        @for (taxonomy of postTaxonomies; track taxonomy) {
+          <li [class.active]="taxonomy.taxonomySlug === rootTaxonomy">
+            <a [routerLink]="['/category', taxonomy.taxonomySlug]" [title]="taxonomy.taxonomyDescription">
+              <span>{{ taxonomy.taxonomyName }}</span>
+              @if (!taxonomy.isLeaf) {
+                <span class="nav-arrow"></span>
+              }
+            </a>
+            @if (!taxonomy.isLeaf) {
+              <div class="sub-nav-wrap">
+                <div class="sub-nav-list">
+                  <ul>
+                    @for (subTaxonomy of taxonomy.children; track subTaxonomy) {
+                      <li>
+                        <a class="sub-nav-link"
+                           [routerLink]="['/category', subTaxonomy.taxonomySlug]"
+                           [title]="subTaxonomy.taxonomyDescription">{{ subTaxonomy.taxonomyName }}</a>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            }
+          </li>
+        }
         <li [class.active]="indexInfo?.subPage === 'about'">
           <a routerLink="/about" title="关于">关于</a>
         </li>
@@ -83,8 +91,8 @@
                   </a>
                 </li>
                 <li>
-                  <a class="sub-nav-link" (click)="showWallpaperModal()" title="精美壁纸">
-                    <nz-icon class="icon-wallpaper" nzType="picture"/><span>手气不错？</span>
+                  <a class="sub-nav-link" (click)="showWallpaperModal()" title="高清壁纸">
+                    <nz-icon class="icon-wallpaper" nzType="picture"/><span>高清壁纸</span>
                   </a>
                 </li>
                 <li>
@@ -119,7 +127,7 @@
       } @else {
         <div class="m-header-search">
           <form class="m-search-form" method="get" action="/search" (ngSubmit)="search()">
-            <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="searchBtnTpl">
+            <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="mSearchBtnTpl">
               <input nz-input
                      #mSearchInput
                      type="text"
@@ -129,7 +137,7 @@
                      autocomplete="off"
                      placeholder="搜索全站（支持全文搜索）"/>
             </nz-input-group>
-            <ng-template #searchBtnTpl>
+            <ng-template #mSearchBtnTpl>
               <button nz-button nzSearch type="submit" nzType="primary"><nz-icon nzType="search"/></button>
             </ng-template>
           </form>

@@ -63,7 +63,7 @@
               <ul>
                 @for (category of post.categories; track category) {
                   <li>
-                    <a [routerLink]="'/category/' + category.taxonomySlug"
+                    <a [routerLink]="['/category', category.taxonomySlug]"
                        [title]="category.taxonomyName"
                        rel="category">{{ category.taxonomyName }}</a>
                   </li>
@@ -79,7 +79,7 @@
               <ul>
                 @for (tag of post.tags; track tag) {
                   <li>
-                    <a [routerLink]="'/tag/' + tag.tagName" [title]="tag.tagName" rel="category">{{ tag.tagName }}</a>
+                    <a [routerLink]="['/tag', tag.tagName]" [title]="tag.tagName" rel="category">{{ tag.tagName }}</a>
                   </li>
                 }
               </ul>
@@ -102,9 +102,7 @@
         @if (post.post.postLoginFlag) {
           <span class="m-meta-tag meta-tag-vip"><nz-icon nzType="user-add"/></span>
         }
-        <a [routerLink]="post.post.postGuid"
-           [title]="post.post.postTitle"
-           rel="bookmark">{{ post.post.postTitle }}</a>
+        <a [routerLink]="post.post.postGuid" [title]="post.post.postTitle" rel="bookmark">{{ post.post.postTitle }}</a>
       </h2>
       <div class="m-post-item-stat">
         <span><nz-icon nzType="eye"/><span>{{ post.post.postViews | numberView: 'K' }}</span></span>
@@ -154,7 +152,7 @@
           <ul>
             @for (tag of post.tags; track tag) {
               <li>
-                <a [routerLink]="'/tag/' + tag.tagName" [title]="tag.tagName" rel="category">{{ tag.tagName }}</a>
+                <a [routerLink]="['/tag', tag.tagName]" [title]="tag.tagName" rel="category">{{ tag.tagName }}</a>
               </li>
             }
           </ul>

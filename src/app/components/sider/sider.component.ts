@@ -4,11 +4,9 @@ import { environment } from 'env/environment';
 import { isEmpty } from 'lodash';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { skipWhile, takeUntil } from 'rxjs';
-import { BookEntity } from '../../interfaces/book';
 import { ArchiveData, PageIndexInfo } from '../../interfaces/common';
 import { OptionEntity } from '../../interfaces/option';
 import { PostEntity } from '../../interfaces/post';
-import { BookService } from '../../services/book.service';
 import { CommonService } from '../../services/common.service';
 import { DestroyService } from '../../services/destroy.service';
 import { OptionService } from '../../services/option.service';
@@ -32,12 +30,6 @@ export class SiderComponent implements OnInit, AfterViewInit, OnDestroy {
   hotPosts: PostEntity[] = [];
   randomPosts: PostEntity[] = [];
   postArchives: ArchiveData[] = [];
-  bookPosts: PostEntity[] = [];
-  activeBook?: BookEntity;
-
-  get bookName() {
-    return this.bookService.getBookName(this.activeBook).fullName;
-  }
 
   get adsVisible() {
     return (
@@ -54,8 +46,7 @@ export class SiderComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly platform: PlatformService,
     private readonly commonService: CommonService,
     private readonly optionService: OptionService,
-    private readonly postService: PostService,
-    private readonly bookService: BookService
+    private readonly postService: PostService
   ) {}
 
   ngOnInit(): void {
@@ -82,12 +73,6 @@ export class SiderComponent implements OnInit, AfterViewInit, OnDestroy {
           this.getRandomPosts();
         }
       });
-    this.postService.activeBook$.pipe(takeUntil(this.destroy$)).subscribe((book) => {
-      this.activeBook = book;
-      if (book) {
-        this.getPostsByBookId();
-      }
-    });
   }
 
   ngAfterViewInit(): void {
@@ -102,20 +87,6 @@ export class SiderComponent implements OnInit, AfterViewInit, OnDestroy {
       window.removeEventListener('scroll', this.scrollHandler);
       window.removeEventListener('resize', this.scrollHandler);
     }
-  }
-
-  private getPostsByBookId() {
-    this.postService
-      .getPostsByBookId<{ posts: PostEntity[] }>({
-        page: 1,
-        size: 10,
-        bookId: this.activeBook?.bookId,
-        simple: 1
-      })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        this.bookPosts = res.posts || [];
-      });
   }
 
   private getHotPosts() {

@@ -74,14 +74,12 @@ export interface PostQueryParam extends QueryParam {
   tag?: string;
   year?: string;
   month?: string;
-  bookId?: string;
   sticky?: 0 | 1;
   simple?: 0 | 1;
 }
 
 export interface PostList {
   posts: ResultList<Post>;
-  book?: BookEntity;
   breadcrumbs: BreadcrumbEntity[];
 }
 

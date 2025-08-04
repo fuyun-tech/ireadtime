@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import highlight from 'highlight.js';
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ApiUrl } from '../config/api-url';
 import { APP_ID } from '../config/common.constant';
 import { BookType } from '../enums/book';
 import { PostType } from '../enums/post';
-import { BookEntity } from '../interfaces/book';
 import { ArchiveData, ArchiveDataMap, ArchiveList } from '../interfaces/common';
 import { Post, PostEntity, PostList, PostQueryParam, PostRelatedParam, PostSearchItem } from '../interfaces/post';
 import { ApiService } from './api.service';
@@ -17,9 +16,6 @@ export class PostService {
   private activePostId: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public activePostId$: Observable<string> = this.activePostId.asObservable();
 
-  private activeBook: Subject<BookEntity | undefined> = new Subject<BookEntity | undefined>();
-  public activeBook$: Observable<BookEntity | undefined> = this.activeBook.asObservable();
-
   private rootTaxonomy: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public rootTaxonomy$: Observable<string> = this.rootTaxonomy.asObservable();
 
@@ -28,15 +24,6 @@ export class PostService {
   getPosts(param: PostQueryParam): Observable<PostList> {
     return this.apiService
       .httpGet(ApiUrl.POSTS, {
-        ...param,
-        appId: APP_ID
-      })
-      .pipe(map((res) => res?.data || {}));
-  }
-
-  getPostsByBookId<T extends PostList | { posts: PostEntity[] }>(param: PostQueryParam): Observable<T> {
-    return this.apiService
-      .httpGet(ApiUrl.POST_LIST_BY_BOOK, {
         ...param,
         appId: APP_ID
       })
@@ -119,10 +106,6 @@ export class PostService {
 
   updateActivePostId(postId: string) {
     this.activePostId.next(postId);
-  }
-
-  updateActiveBook(book?: BookEntity) {
-    this.activeBook.next(book);
   }
 
   updateRootTaxonomy(taxonomySlug: string) {

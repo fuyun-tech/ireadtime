@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ForgotComponent } from 'src/app/pages/auth/forgot/forgot.component';
 import { LoginCallbackComponent } from './pages/auth/login-callback/login-callback.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { SignupConfirmComponent } from './pages/auth/signup-confirm/signup-confirm.component';
@@ -58,7 +59,8 @@ export const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'login/callback', component: LoginCallbackComponent, data: { bg: false } },
       { path: 'signup', component: SignupComponent },
-      { path: 'confirm', component: SignupConfirmComponent }
+      { path: 'confirm', component: SignupConfirmComponent },
+      { path: 'forgot', component: ForgotComponent }
     ],
     data: {
       centered: true

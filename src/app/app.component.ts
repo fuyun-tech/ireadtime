@@ -4,12 +4,13 @@ import { environment } from 'env/environment';
 import { filter, takeWhile, tap } from 'rxjs/operators';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LoginModalComponent } from './components/login-modal/login-modal.component';
 import { MSiderComponent } from './components/m-sider/m-sider.component';
 import { COOKIE_KEY_UV_ID, MEDIA_QUERY_THEME_DARK } from './config/common.constant';
 import { ResponseCode } from './config/response-code.enum';
 import { Theme } from './enums/common';
 import { AdsStatus } from './enums/log';
-import { ErrorState } from './interfaces/common';
+import { ErrorState, LoginModalOptions } from './interfaces/common';
 import { TaxonomyNode } from './interfaces/taxonomy';
 import { ForbiddenComponent } from './pages/error/forbidden/forbidden.component';
 import { NotFoundComponent } from './pages/error/not-found/not-found.component';
@@ -38,7 +39,8 @@ import { generateUid } from './utils/helper';
     NotFoundComponent,
     ForbiddenComponent,
     ServerErrorComponent,
-    MSiderComponent
+    MSiderComponent,
+    LoginModalComponent
   ],
   providers: [],
   templateUrl: './app.component.html',
@@ -51,6 +53,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   errorPage = false;
   isBodyCentered = false;
   siderVisible = false;
+  loginOptions: LoginModalOptions = {
+    visible: false,
+    closable: true
+  };
 
   private currentUrl = '';
   private initialized = false;
@@ -89,6 +95,11 @@ export class AppComponent implements OnInit, AfterViewInit {
             }
 
             this.postService.updateRootTaxonomy('');
+
+            this.commonService.updateLoginModalVisible({
+              visible: false,
+              closable: true
+            });
           }
         }),
         filter((re) => re instanceof NavigationEnd)
@@ -146,11 +157,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.initThemeListener();
     this.optionService.getOptions().subscribe();
     this.tenantAppService.getAppInfo().subscribe();
-    this.taxonomyService.getTaxonomies().subscribe((taxonomies) => (this.postTaxonomies = taxonomies));
     this.userService.getLoginUser().subscribe();
-    this.errorService.errorState$.subscribe((state) => {
-      this.errorState = state;
-    });
     this.commonService.siderVisible$.subscribe((visible) => {
       if (this.platform.isBrowser) {
         if (visible) {
@@ -167,6 +174,13 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       }
       this.siderVisible = visible;
+    });
+    this.commonService.loginVisible$.subscribe((loginOptions) => {
+      this.loginOptions = loginOptions;
+    });
+    this.taxonomyService.getTaxonomies().subscribe((taxonomies) => (this.postTaxonomies = taxonomies));
+    this.errorService.errorState$.subscribe((state) => {
+      this.errorState = state;
     });
 
     if (this.platform.isBrowser) {
@@ -203,6 +217,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   closeSider() {
     this.siderVisible = false;
     this.commonService.updateSiderVisible(false);
+  }
+
+  showLoginModal(closable = true) {
+    this.commonService.updateLoginModalVisible({
+      visible: true,
+      closable
+    });
+  }
+
+  closeLoginModal() {
+    this.commonService.updateLoginModalVisible({
+      visible: false,
+      closable: true
+    });
   }
 
   checkAdsStatus(isLoaded: boolean) {

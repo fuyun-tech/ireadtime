@@ -11,7 +11,7 @@
         <a [routerLink]="post.postGuid" [title]="post.postTitle" rel="bookmark">{{ post.postTitle }}</a>
       </h1>
       <div class="post-meta post-meta-top">
-        <span title="写于: {{ post.postDate | date:'yyyy-MM-dd' }}">
+        <span title="发布: {{ post.postDate | date:'yyyy-MM-dd' }}">
           <span class="fi fi-calendar-date"></span><span>{{ post.postDate | date:'yyyy-MM-dd' }}</span>
         </span>
         <span title="作者：{{ post.postAuthor || post.owner.userNickname }}">
@@ -51,7 +51,9 @@
       <div>
         @if (isArticle && postCategories.length > 0) {
           <div class="post-meta">
-            <div class="post-meta-icon"><nz-icon nzType="folder"/></div>
+            <div class="post-meta-icon">
+              <nz-icon nzType="folder"/>
+            </div>
             <ul class="post-meta-info">
               @for (cat of postCategories; track cat) {
                 <li>
@@ -160,11 +162,8 @@
     <app-post-related></app-post-related>
   }
   <app-make-money></app-make-money>
-  <app-comment [enableAI]="!post.postPayFlag && !post.postLoginFlag"></app-comment>
+  <app-comment></app-comment>
   @if (shareVisible) {
     <app-share-modal [shareUrl]="shareUrl" (close)="closeShareQrcode()"></app-share-modal>
-  }
-  @if (loginVisible) {
-    <app-login-modal (close)="closeLoginModal()"></app-login-modal>
   }
 }

@@ -8,7 +8,6 @@ import { ClipboardService } from 'ngx-clipboard';
 import { combineLatest, skipWhile, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from 'src/app/components/breadcrumb/breadcrumb.component';
 import { CommentComponent } from 'src/app/components/comment/comment.component';
-import { LoginModalComponent } from 'src/app/components/login-modal/login-modal.component';
 import { MakeMoneyComponent } from 'src/app/components/make-money/make-money.component';
 import { PostPrevNextComponent } from 'src/app/components/post-prev-next/post-prev-next.component';
 import { PostRelatedComponent } from 'src/app/components/post-related/post-related.component';
@@ -65,7 +64,6 @@ import { decodeEntities } from 'src/app/utils/entities';
     PostRelatedComponent,
     CommentComponent,
     ShareModalComponent,
-    LoginModalComponent,
     MakeMoneyComponent
   ],
   providers: [DestroyService, NzImageService],
@@ -153,8 +151,9 @@ export class PostComponent implements OnInit {
           this.commonService.redirectToNotFound();
           return;
         }
-        this.closeLoginModal();
+
         this.closeShareQrcode();
+
         if (REGEXP_ID.test(slug)) {
           this.postId = slug;
           this.getPost();
@@ -287,11 +286,10 @@ export class PostComponent implements OnInit {
   }
 
   showLoginModal() {
-    this.loginVisible = true;
-  }
-
-  closeLoginModal() {
-    this.loginVisible = false;
+    this.commonService.updateLoginModalVisible({
+      visible: true,
+      closable: true
+    });
   }
 
   protected updatePageIndex(): void {

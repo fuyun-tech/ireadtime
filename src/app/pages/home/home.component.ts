@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { isEmpty, uniq } from 'lodash';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzEmptyComponent } from 'ng-zorro-antd/empty';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { combineLatest, skipWhile, takeUntil } from 'rxjs';
 import { CarouselComponent } from 'src/app/components/carousel/carousel.component';
@@ -28,7 +28,7 @@ import { UserAgentService } from 'src/app/services/user-agent.service';
     DatePipe,
     NzButtonModule,
     NzIconModule,
-    NzEmptyModule,
+    NzEmptyComponent,
     CarouselComponent,
     NumberViewPipe,
     PostItemComponent

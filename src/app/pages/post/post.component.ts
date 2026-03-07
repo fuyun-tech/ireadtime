@@ -92,12 +92,12 @@ export class PostComponent implements OnInit {
 
   get showPayMask() {
     return (
-      (this.post.postPayFlag && !this.user.isAdmin && this.post.postOwnerId !== this.user.userId) ||
+      (this.post.postPayFlag && (!this.user || (!this.user.isAdmin && this.post.postOwnerId !== this.user.userId))) ||
       (!!this.post.postLoginFlag && !this.isSignIn)
     );
   }
 
-  protected pageIndex = 'post-article';
+  protected pageIndex = 'post-detail';
 
   private readonly copyHTML = '<span class="fi fi-copy"></span>Copy code';
   private readonly copiedHTML = '<span class="fi fi-check-lg"></span>Copied!';

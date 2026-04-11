@@ -61,7 +61,7 @@
             <div>
               <div class="post-item-tag-icon"><nz-icon nzType="folder"/></div>
               <ul>
-                @for (category of post.categories; track category) {
+                @for (category of post.categories; track category.taxonomyId) {
                   <li>
                     <a [routerLink]="['/category', category.taxonomySlug]"
                        [title]="category.taxonomyName"
@@ -77,7 +77,7 @@
             <div>
               <div class="post-item-tag-icon"><nz-icon nzType="tag"/></div>
               <ul>
-                @for (tag of post.tags; track tag) {
+                @for (tag of post.tags; track tag.tagId) {
                   <li>
                     <a [routerLink]="['/tag', tag.tagName]" [title]="tag.tagName" rel="category">{{ tag.tagName }}</a>
                   </li>
@@ -150,7 +150,7 @@
         <div>
           <div class="post-item-tag-icon m-post-item-tag-icon"><nz-icon nzType="tag"/></div>
           <ul>
-            @for (tag of post.tags; track tag) {
+            @for (tag of post.tags; track tag.tagId) {
               <li>
                 <a [routerLink]="['/tag', tag.tagName]" [title]="tag.tagName" rel="category">{{ tag.tagName }}</a>
               </li>

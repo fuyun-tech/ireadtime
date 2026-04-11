@@ -337,7 +337,7 @@ export class PostComponent implements OnInit {
     this.isVoted = post.isVoted;
 
     if (this.isArticle) {
-      this.pageIndex = 'post-article';
+      this.pageIndex = 'post-detail';
     } else {
       this.pageIndex = 'page-' + this.post.postName;
     }
